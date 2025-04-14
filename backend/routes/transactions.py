@@ -34,38 +34,38 @@ def add_transaction():
     conn.close()
     return jsonify({"message": "Transaction added"}), 201
 
-# @transactions.route('/transactions/<int:id>', methods=['PUT'])
-# def update_transaction(id):
-#     data = request.json
-#     conn = get_connection()
-#     cursor = conn.cursor()
+@transactions.route('/transactions/<int:id>', methods=['PUT'])
+def update_transaction(id):
+    data = request.json
+    conn = get_connection()
+    cursor = conn.cursor()
 
-#     # Update query
-#     cursor.execute("""
-#         UPDATE transactions 
-#         SET amount = %s, description = %s, date = %s, category_id = %s
-#         WHERE id = %s
-#     """, (data['amount'], data['description'], data['date'], data['category_id'], id))
-#     conn.commit()
+    # Update query
+    cursor.execute("""
+        UPDATE transactions 
+        SET amount = %s, description = %s, date = %s, category_id = %s
+        WHERE id = %s
+    """, (data['amount'], data['description'], data['date'], data['category_id'], id))
+    conn.commit()
 
-#     if cursor.rowcount == 0:
-#         return jsonify({"message": "Transaction not found"}), 404
+    if cursor.rowcount == 0:
+        return jsonify({"message": "Transaction not found"}), 404
 
-#     conn.close()
-#     return jsonify({"message": "Transaction updated"})
+    conn.close()
+    return jsonify({"message": "Transaction updated"})
 
 
-# @transactions.route('/transactions/<int:id>', methods=['DELETE'])
-# def delete_transaction(id):
-#     conn = get_connection()
-#     cursor = conn.cursor()
+@transactions.route('/transactions/<int:id>', methods=['DELETE'])
+def delete_transaction(id):
+    conn = get_connection()
+    cursor = conn.cursor()
 
-#     # Delete query
-#     cursor.execute("DELETE FROM transactions WHERE id = %s", (id,))
-#     conn.commit()
+    # Delete query
+    cursor.execute("DELETE FROM transactions WHERE id = %s", (id,))
+    conn.commit()
 
-#     if cursor.rowcount == 0:
-#         return jsonify({"message": "Transaction not found"}), 404
+    if cursor.rowcount == 0:
+        return jsonify({"message": "Transaction not found"}), 404
 
-#     conn.close()
-#     return jsonify({"message": "Transaction deleted"})
+    conn.close()
+    return jsonify({"message": "Transaction deleted"})
