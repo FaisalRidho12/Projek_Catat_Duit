@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
-import 'edit_transaction_page.dart'; // Pastikan halaman EditTransactionPage sudah ada
-import '../services/api_service.dart'; // Jika diperlukan untuk API service
+import 'edit_transaction_page.dart';
+import '../services/api_service.dart';
 
 class CategoryDetailPage extends StatefulWidget {
   final String categoryName;
@@ -20,7 +20,8 @@ class CategoryDetailPage extends StatefulWidget {
 
 class _CategoryDetailPageState extends State<CategoryDetailPage> {
   List<FinanceTransaction> categoryTransactions = [];
-  final currencyFormat = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
+  final currencyFormat =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
 
   @override
   void initState() {
@@ -44,10 +45,11 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditTransactionPage(transaction: transaction),
+                    builder: (context) =>
+                        EditTransactionPage(transaction: transaction),
                   ),
                 ).then((_) async {
-                  await loadTransactions();  // Load ulang transaksi setelah edit
+                  await loadTransactions(); // Load ulang transaksi setelah edit
                 });
               },
             ),
@@ -80,7 +82,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
             child: const Text('Hapus'),
             onPressed: () async {
               Navigator.pop(context);
-              await ApiService.deleteTransaction(id); // Hapus transaksi
+              await ApiService.deleteTransaction(id);
               await loadTransactions(); // Load ulang transaksi setelah hapus
             },
           ),
@@ -90,9 +92,12 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
   }
 
   Future<void> loadTransactions() async {
-    final allTransactions = await ApiService.getAllTransactions(); // Sesuaikan dengan API atau sumber data
+    final allTransactions = await ApiService
+        .getAllTransactions(); // Sesuaikan dengan API atau sumber data
     setState(() {
-      categoryTransactions = allTransactions.where((t) => t.categoryName == widget.categoryName).toList();
+      categoryTransactions = allTransactions
+          .where((t) => t.categoryName == widget.categoryName)
+          .toList();
     });
   }
 
@@ -105,11 +110,15 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
         itemBuilder: (context, index) {
           final t = categoryTransactions[index];
 
-          // Parsing format "Mon, 14 Apr 2025 14:46:00 GMT"
-          final parsedDate = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US').parse(t.date);
-          final formattedDate = DateFormat('dd MMM yyyy • HH:mm').format(parsedDate);
+          // format tanggal dan waktu contohnya "Mon, 14 Apr 2025 14:46:00"
+          final parsedDate =
+              DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US')
+                  .parse(t.date);
+          final formattedDate =
+              DateFormat('dd MMM yyyy • HH:mm').format(parsedDate);
 
-          final amountText = '${t.type == 'income' ? '+' : '-'} ${currencyFormat.format(t.amount)}';
+          final amountText =
+              '${t.type == 'income' ? '+' : '-'} ${currencyFormat.format(t.amount)}';
 
           return ListTile(
             title: Text(t.description),
@@ -121,7 +130,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onTap: () => _showTransactionOptions(t), // Tampilkan opsi edit dan hapus
+            onTap: () => _showTransactionOptions(t),
           );
         },
       ),

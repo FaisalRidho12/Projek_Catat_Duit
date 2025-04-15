@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import untuk NumberFormat
+import 'package:intl/intl.dart'; // untuk format nominal
 import '../models/transaction.dart';
 import '../services/api_service.dart';
 import 'form_page.dart';
@@ -21,7 +21,8 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> loadData() async {
-    final data = await ApiService.getAllTransactions(); // Memanggil semua transaksi
+    final data =
+        await ApiService.getAllTransactions(); // manggil semua transaksi
     setState(() {
       transactions = data;
     });
@@ -44,7 +45,8 @@ class _DashboardPageState extends State<DashboardPage> {
   List<FinanceTransaction> get transactionsToday {
     final today = DateTime.now();
     return transactions.where((t) {
-      final transactionDate = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US').parse(t.date);
+      final transactionDate =
+          DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US').parse(t.date);
       return transactionDate.year == today.year &&
           transactionDate.month == today.month &&
           transactionDate.day == today.day;
@@ -64,7 +66,7 @@ class _DashboardPageState extends State<DashboardPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
-          // Menambahkan transaksi dan memuat ulang data setelah kembali
+          // Menambahkan transaksi dan memuat ulang data setelah selesai nambah
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const FormPage()),
@@ -76,13 +78,17 @@ class _DashboardPageState extends State<DashboardPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _summaryCard('Saldo Saat Ini', totalBalance, const Color.fromARGB(255, 25, 149, 250)), // Menampilkan saldo total
-            _summaryCard('Pemasukan Total', totalIncome, const Color.fromARGB(255, 26, 216, 32)), // Menampilkan total pemasukan
-            _summaryCard('Pengeluaran Total', totalExpense, const Color.fromARGB(255, 239, 30, 15)), // Menampilkan total pengeluaran
+            _summaryCard('Saldo Saat Ini', totalBalance,
+                const Color.fromARGB(255, 25, 149, 250)),
+            _summaryCard('Pemasukan Total', totalIncome,
+                const Color.fromARGB(255, 26, 216, 32)),
+            _summaryCard('Pengeluaran Total', totalExpense,
+                const Color.fromARGB(255, 239, 30, 15)),
             const SizedBox(height: 16),
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text('Transaksi Hari Ini', style: TextStyle(fontWeight: FontWeight.bold)), // Menampilkan transaksi hari ini
+              child: Text('Transaksi Hari Ini',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
             ),
             Expanded(
               child: ListView.builder(
@@ -95,7 +101,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     trailing: Text(
                       '${t.type == 'income' ? '+' : '-'} ${formatCurrency(t.amount)}',
                       style: TextStyle(
-                          color: t.type == 'income' ? Colors.green : Colors.red),
+                          color:
+                              t.type == 'income' ? Colors.green : Colors.red),
                     ),
                   );
                 },

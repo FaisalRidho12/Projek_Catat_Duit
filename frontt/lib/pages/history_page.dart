@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import '../models/category.dart';
 import '../models/transaction.dart';
 import '../services/api_service.dart';
-import 'edit_transaction_page.dart'; // Tambahkan ini jika belum ada
+import 'edit_transaction_page.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -21,7 +21,8 @@ class _HistoryPageState extends State<HistoryPage> {
   String? selectedType;
   int? selectedCategoryId;
 
-  final currencyFormat = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
+  final currencyFormat =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
 
   @override
   void initState() {
@@ -48,7 +49,8 @@ class _HistoryPageState extends State<HistoryPage> {
   void filterTransactions() {
     setState(() {
       filteredTransactions = transactions.where((t) {
-        final transactionDate = DateFormat('EEE, dd MMM yyyy HH:mm:ss', 'en_US').parse(t.date);
+        final transactionDate =
+            DateFormat('EEE, dd MMM yyyy HH:mm:ss', 'en_US').parse(t.date);
 
         bool matchesDate = selectedDate == null
             ? true
@@ -56,7 +58,8 @@ class _HistoryPageState extends State<HistoryPage> {
                 transactionDate.month == selectedDate!.month &&
                 transactionDate.day == selectedDate!.day;
 
-        bool matchesCategory = selectedCategoryId == null || t.categoryId == selectedCategoryId;
+        bool matchesCategory =
+            selectedCategoryId == null || t.categoryId == selectedCategoryId;
         bool matchesType = selectedType == null || t.type == selectedType;
 
         return matchesDate && matchesCategory && matchesType;
@@ -93,11 +96,12 @@ class _HistoryPageState extends State<HistoryPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditTransactionPage(transaction: transaction),
+                    builder: (context) =>
+                        EditTransactionPage(transaction: transaction),
                   ),
                 ).then((_) async {
-                  await loadAll();       // Ambil ulang data
-                  filterTransactions();  // Terapkan filter lagi agar tampilan diperbarui
+                  await loadAll(); // Ambil ulang data setelah selesai edit
+                  filterTransactions(); // filter biar tampilan diperbarui
                 }); // Reload data setelah edit
               },
             ),
@@ -120,7 +124,8 @@ class _HistoryPageState extends State<HistoryPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Konfirmasi Hapus'),
-        content: const Text('Apakah Anda yakin ingin menghapus transaksi ini? Data saldo juga akan berubah.'),
+        content: const Text(
+            'Apakah Anda yakin ingin menghapus transaksi ini? Data saldo juga akan berubah.'),
         actions: [
           TextButton(
             child: const Text('Batal'),
@@ -171,7 +176,8 @@ class _HistoryPageState extends State<HistoryPage> {
                   value: selectedType ?? 'Semua',
                   items: const [
                     DropdownMenuItem(value: 'income', child: Text('Pemasukan')),
-                    DropdownMenuItem(value: 'expense', child: Text('Pengeluaran')),
+                    DropdownMenuItem(
+                        value: 'expense', child: Text('Pengeluaran')),
                     DropdownMenuItem(value: 'Semua', child: Text('Semua Tipe')),
                   ],
                   onChanged: (val) {
@@ -208,8 +214,11 @@ class _HistoryPageState extends State<HistoryPage> {
                     itemCount: filteredTransactions.length,
                     itemBuilder: (context, index) {
                       final t = filteredTransactions[index];
-                      final rawDate = DateFormat('EEE, dd MMM yyyy HH:mm:ss', 'en_US').parse(t.date);
-                      final formattedDate = DateFormat('dd MMM yyyy • HH:mm').format(rawDate);
+                      final rawDate =
+                          DateFormat('EEE, dd MMM yyyy HH:mm:ss', 'en_US')
+                              .parse(t.date);
+                      final formattedDate =
+                          DateFormat('dd MMM yyyy • HH:mm').format(rawDate);
                       final amountText =
                           '${t.type == 'income' ? '+' : '-'} ${currencyFormat.format(t.amount)}';
 
@@ -219,7 +228,8 @@ class _HistoryPageState extends State<HistoryPage> {
                         trailing: Text(
                           amountText,
                           style: TextStyle(
-                            color: t.type == 'income' ? Colors.green : Colors.red,
+                            color:
+                                t.type == 'income' ? Colors.green : Colors.red,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

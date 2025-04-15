@@ -116,7 +116,8 @@ class _FormPageState extends State<FormPage> {
                 value: _selectedType,
                 items: const [
                   DropdownMenuItem(value: 'income', child: Text('Pemasukan')),
-                  DropdownMenuItem(value: 'expense', child: Text('Pengeluaran')),
+                  DropdownMenuItem(
+                      value: 'expense', child: Text('Pengeluaran')),
                 ],
                 onChanged: (val) {
                   setState(() {
@@ -129,7 +130,8 @@ class _FormPageState extends State<FormPage> {
               DropdownButtonFormField<int>(
                 value: _selectedCategoryId,
                 items: filteredCategories
-                    .map((c) => DropdownMenuItem(value: c.id, child: Text(c.name)))
+                    .map((c) =>
+                        DropdownMenuItem(value: c.id, child: Text(c.name)))
                     .toList(),
                 onChanged: (val) => setState(() => _selectedCategoryId = val),
                 decoration: const InputDecoration(labelText: 'Kategori'),
@@ -204,7 +206,8 @@ class _FormPageState extends State<FormPage> {
       time.minute,
     );
 
-    final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(combinedDateTime);
+    final formattedDate =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(combinedDateTime);
 
     print('Tanggal dikirim ke server: $formattedDate');
 

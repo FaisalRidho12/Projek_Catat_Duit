@@ -6,7 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('id'); // Inisialisasi locale Indonesia
+  await initializeDateFormatting('id'); 
   runApp(const FinanceApp());
 }
 
